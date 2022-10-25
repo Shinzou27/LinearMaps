@@ -158,4 +158,28 @@ class Transformations {
         }  
     }
 }
-//Para testar os cálculos, é só criar um objeto da classe Transformations e chamar o método!
+function declareVector() {
+    var input = prompt("Digite as coordenadas cartesianas do vetor.");
+    var i = 0;
+    var vetor = [];
+    var index = 0;
+    while (input[i] != ")") {
+        if (parseInt(input[i])*0 == 0) {
+            vetor[index] = [parseInt(input[i])];
+            index++;
+        }
+        else if(input[i] == undefined) {
+            break;
+        }
+        i++;
+    }
+    console.log("Vetor original = " + vetor)
+    return vetor;
+}
+
+//Para testar os cálculos, é só descomentar as variáveis vetor e calculo e chamar os métodos!
+
+/*
+var vetor = declararVetor();
+var calculo = new Transformations();
+*/
