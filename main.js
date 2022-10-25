@@ -205,6 +205,7 @@ function declareVector() {
 
 //Para testar os cálculos, é só descomentar as variáveis vetor e calculo e chamar os métodos!
 
+/*
 var vetor = declareVector();
 var calculo = new Transformations();
-console.log(calculo.reflection2DX(vetor));
+*/
