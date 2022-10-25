@@ -12,13 +12,6 @@
             ○ rotation3DY(vector, angle)
             ○ rotation3DZ(vector, angle)
 
-        ● Reflexão (em todos os eixos nas dimensões 2D e 3D)
-            ○ reflection2DX(vector)
-            ○ reflection2DY(vector)
-            ○ reflection3DX(vector)
-            ○ reflection3DY(vector)
-            ○ reflection3DZ(vector)
-
         ● Projeção (em todos os eixos em 2D e m 3D)
             ○ projection3DY(vector)
             ○ projection3DZ(vector)
@@ -45,11 +38,14 @@ class Transformations {
         a[numLinhas] = [1];
         return a;
     }
+    unCoordHomogeneasVetor(a) {
+        return a.pop();
+    }
     //Algoritmo do produto de matrizes
     times(a, b) {
         this.coordHomogeneasTL(a);
         this.coordHomogeneasVetor(b);
-
+        var dimensao = a.length-1;
         var soma = 0;
         var matrizTimes = [];
 
@@ -63,11 +59,12 @@ class Transformations {
                 soma = 0;
             }
         }
-        var lambda = matrizTimes[2][0];
+        var lambda = matrizTimes[dimensao][0];
         var resultado = [];
         for (i = 0; i < matrizTimes.length-1; i++) {
             resultado[i] = [matrizTimes[i][0]/lambda];
         }
+        this.unCoordHomogeneasVetor(b);
         return resultado;
     }
     //Algoritmo para produto de matrizes apenas para a translação!!!!
@@ -92,6 +89,7 @@ class Transformations {
         for (i = 0; i < matrizTimes.length-1; i++) {
             resultado[i] = [matrizTimes[i][0]/lambda];
         }
+        this.unCoordHomogeneasVetor(b);
         return resultado;
     }
     //Algoritmo para imprimir o vetor no sistema cartesiano 
@@ -157,6 +155,34 @@ class Transformations {
             return this.normatizar(vector);
         }  
     }
+    reflection2DX(vector){
+        var transfLinear = [[-1, 0], 
+                            [0, 1]];
+        return this.normatizar(this.times(transfLinear, vector));
+    }
+    reflection2DY(vector){
+        var transfLinear = [[1, 0], 
+                            [0, -1]];
+        return this.normatizar(this.times(transfLinear, vector));
+    }
+    reflection3DXY(vector){
+        var transfLinear = [[1, 0, 0], 
+                            [0, 1, 0],
+                            [0, 0, -1]];
+        return this.normatizar(this.times(transfLinear, vector));
+    }
+    reflection3DYZ(vector){
+        var transfLinear = [[-1, 0, 0], 
+                            [0, 1, 0],
+                            [0, 0, 1]];
+        return this.normatizar(this.times(transfLinear, vector));
+    }
+    reflection3DXZ(vector){
+        var transfLinear = [[1, 0, 0], 
+                            [0, -1, 0],
+                            [0, 0, 1]];
+        return this.normatizar(this.times(transfLinear, vector));
+    }
 }
 function declareVector() {
     var input = prompt("Digite as coordenadas cartesianas do vetor.");
@@ -179,7 +205,6 @@ function declareVector() {
 
 //Para testar os cálculos, é só descomentar as variáveis vetor e calculo e chamar os métodos!
 
-/*
 var vetor = declareVector();
 var calculo = new Transformations();
-*/
+console.log(calculo.reflection2DX(vetor));
