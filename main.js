@@ -7,12 +7,7 @@
                 Victor Nunes Saboia
 
     Ainda resta:
-        ● Translação (em 2D e em 3D)
-            ○ translate2D(vector, dx, dy)
-            ○ translate3D(vector, dx, dy, dz)
-
         ● Rotação (em 2D e em todos os eixos em 3D)
-            ○ roration2D(vector, angle)
             ○ rotation3DX(vector, angle)
             ○ rotation3DY(vector, angle)
             ○ rotation3DZ(vector, angle)
@@ -75,6 +70,30 @@ class Transformations {
         }
         return resultado;
     }
+    //Algoritmo para produto de matrizes apenas para a translação!!!!
+    times2(a, b) {
+        this.coordHomogeneasVetor(b);
+        var dimensao = a.length-1;
+        var soma = 0;
+        var matrizTimes = [];
+
+        for (var m = 0; m < a.length; m++) {
+            matrizTimes[m] = [];
+            for (var p = 0; p < b[0].length; p++) {
+                for (var i = 0; i < b.length; i++) {
+                    soma += a[m][i] * b[i][p];
+                }
+                matrizTimes[m][p] = soma;
+                soma = 0;
+            }
+        }
+        var lambda = matrizTimes[dimensao][0];
+        var resultado = [];
+        for (i = 0; i < matrizTimes.length-1; i++) {
+            resultado[i] = [matrizTimes[i][0]/lambda];
+        }
+        return resultado;
+    }
     //Algoritmo para imprimir o vetor no sistema cartesiano 
     normatizar(vector) {
         var resultado = "Resultado: (";
@@ -109,6 +128,34 @@ class Transformations {
                             [0, 1, 0],
                             [0, 0, 1]];
         return this.normatizar(this.times(transfLinear, vector));
+    }
+    translate2D(vector, dx, dy){
+        var transfLinear = [[1, 0, dx],
+                            [0, 1, dy],
+                            [0, 0, 1]];
+        return this.normatizar(this.times2(transfLinear, vector));
+    }
+    translate3D(vector, dx, dy, dz){
+        var transfLinear = [[1, 0, 0, dx],
+                            [0, 1, 0, dy],
+                            [0, 0, 1, dz],
+                            [0, 0, 0, 1]];
+        return this.normatizar(this.times2(transfLinear, vector));
+    }
+    rotation2D(vector, angle){
+        if(angle!=0){
+            if(angle>0){
+                var transfLinear = [[Math.cos(angle*(Math.PI/180)), -(Math.sin(angle*(Math.PI/180)))],
+                                [Math.sin(angle*(Math.PI/180)), Math.cos(angle*(Math.PI/180))]];
+            } else {
+                angle = Math.abs(angle);
+                var transfLinear = [[Math.cos(angle*(Math.PI/180)), (Math.sin(angle*(Math.PI/180)))],
+                                    [-(Math.sin(angle*(Math.PI/180))), Math.cos(angle*(Math.PI/180))]];
+            }  
+            return this.normatizar(this.times(transfLinear, vector));
+        } else {
+            return this.normatizar(vector);
+        }  
     }
 }
 //Para testar os cálculos, é só criar um objeto da classe Transformations e chamar o método!
