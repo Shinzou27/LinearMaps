@@ -86,15 +86,16 @@ class Transformations {
     normatizar(vector) {
         var resultado = "Resultado: (";
         for (var i = 0; i < vector.length; i++) {
+            var coordenada = parseFloat(vector[i][0]).toFixed(2);
             if (i != vector.length-1) {
-                resultado += vector[i][0] + ", "
+                resultado += coordenada + ", "
             }
             else {
-                resultado += vector[i][0];
+                resultado += coordenada;
             }
         }
         resultado += ")"
-        return resultado;
+        return console.log(resultado);
     }
 
     /*
@@ -188,7 +189,6 @@ class Transformations {
                                 [transfLinear[1][0], transfLinear[1][1], 0],
                                 [0, 0, 1]
                             ];
-            console.log(matriz);
 
             return this.normatizar(this.times(matriz, vector));
         } else {
@@ -205,22 +205,22 @@ class Transformations {
                             [0, -1]];
         return this.normatizar(this.times(transfLinear, vector));
     }
-    reflection3DXY(vector){
-        var transfLinear = [[1, 0, 0], 
-                            [0, 1, 0],
-                            [0, 0, -1]];
-        return this.normatizar(this.times(transfLinear, vector));
-    }
-    reflection3DYZ(vector){
+    reflection3DX(vector){
         var transfLinear = [[-1, 0, 0], 
                             [0, 1, 0],
                             [0, 0, 1]];
         return this.normatizar(this.times(transfLinear, vector));
     }
-    reflection3DXZ(vector){
+    reflection3DY(vector){
         var transfLinear = [[1, 0, 0], 
                             [0, -1, 0],
                             [0, 0, 1]];
+        return this.normatizar(this.times(transfLinear, vector));
+    }
+    reflection3DZ(vector){
+        var transfLinear = [[1, 0, 0], 
+                            [0, 1, 0],
+                            [0, 0, -1]];
         return this.normatizar(this.times(transfLinear, vector));
     }
     projection2DX(vector) {
@@ -262,23 +262,30 @@ function declareVector() {
     var i = 0;
     var vetor = [];
     var index = 0;
+    var buildingNumber = "";
     while (input[i] != ")") {
         if (parseInt(input[i])*0 == 0) {
-            vetor[index] = [parseInt(input[i])];
-            index++;
+            if(input[i-1] == "-") {
+                buildingNumber = buildingNumber + input[i-1];
+            }
+            buildingNumber = buildingNumber + input[i];
+            if (isNaN(parseInt(input[i+1])) && !isNaN(buildingNumber)) {
+                vetor[index] = [parseInt(buildingNumber)];
+                buildingNumber = "";
+                index++;
+            }
         }
         else if(input[i] == undefined) {
             break;
         }
         i++;
     }
-    console.log("Vetor original = " + vetor)
+    console.log("Vetor original = (" + vetor + ")")
     return vetor;
 }
 
 //Para testar os cálculos, é só descomentar as variáveis vetor e calculo e chamar os métodos!
 
-/*
+
 var vetor = declareVector();
 var calculo = new Transformations();
-*/
