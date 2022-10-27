@@ -7,17 +7,7 @@
                 Victor Nunes Saboia
 
     Ainda resta:
-        ● Rotação (em 2D e em todos os eixos em 3D)
-            ○ rotation3DX(vector, angle)
-            ○ rotation3DY(vector, angle)
-            ○ rotation3DZ(vector, angle)
-
-        ● Projeção (em todos os eixos em 2D e m 3D)
-            ○ projection3DY(vector)
-            ○ projection3DZ(vector)
-
-        ● Cisalhamento (apenas em 2D)
-            ○ shearing(vector, kx, ky)
+        ● Tudo feito! :D
 */
 
 class Transformations {
@@ -110,23 +100,6 @@ class Transformations {
     /*
     | -------- Métodos de Transformação Linear -------- |
     */
-
-    projection2DX(vector) {
-        var transfLinear = [[1, 0], 
-                            [0, 0]];
-        return this.normatizar(this.times(transfLinear, vector));
-    }
-    projection2DY(vector) {
-        var transfLinear = [[0, 0], 
-                            [0, 1]];
-        return this.normatizar(this.times(transfLinear, vector));
-    }
-    projection3DX(vector) {
-        var transfLinear = [[0, 0, 0], 
-                            [0, 1, 0],
-                            [0, 0, 1]];
-        return this.normatizar(this.times(transfLinear, vector));
-    }
     translate2D(vector, dx, dy){
         var transfLinear = [[1, 0, dx],
                             [0, 1, dy],
@@ -151,6 +124,73 @@ class Transformations {
                                     [-(Math.sin(angle*(Math.PI/180))), Math.cos(angle*(Math.PI/180))]];
             }  
             return this.normatizar(this.times(transfLinear, vector));
+        } else {
+            return this.normatizar(vector);
+        }  
+    }
+    rotation3DX(vector, angle){
+        if(angle!=0){
+            if(angle>0){
+                var transfLinear = [[Math.cos(angle*(Math.PI/180)), -(Math.sin(angle*(Math.PI/180)))],
+                                [Math.sin(angle*(Math.PI/180)), Math.cos(angle*(Math.PI/180))]];
+            } else {
+                angle = Math.abs(angle);
+                var transfLinear = [[Math.cos(angle*(Math.PI/180)), (Math.sin(angle*(Math.PI/180)))],
+                                    [-(Math.sin(angle*(Math.PI/180))), Math.cos(angle*(Math.PI/180))]];
+            }  
+
+            var matriz = [
+                                [1, 0, 0], 
+                                [0, transfLinear[0][0], transfLinear[0][1]],
+                                [0, transfLinear[1][0], transfLinear[1][1]]
+                            ];
+
+            return this.normatizar(this.times(matriz, vector));
+        } else {
+            return this.normatizar(vector);
+        }  
+    }
+    rotation3DY(vector, angle){
+        if(angle!=0){
+            if(angle>0){
+                var transfLinear = [[Math.cos(angle*(Math.PI/180)), -(Math.sin(angle*(Math.PI/180)))],
+                                [Math.sin(angle*(Math.PI/180)), Math.cos(angle*(Math.PI/180))]];
+            } else {
+                angle = Math.abs(angle);
+                var transfLinear = [[Math.cos(angle*(Math.PI/180)), (Math.sin(angle*(Math.PI/180)))],
+                                    [-(Math.sin(angle*(Math.PI/180))), Math.cos(angle*(Math.PI/180))]];
+            }  
+
+            var matriz =    [
+                                [transfLinear[0][0], 0, transfLinear[1][0]], 
+                                [0, 1, 0],
+                                [ transfLinear[0][1], 0, transfLinear[1][1]]
+                            ];
+
+            return this.normatizar(this.times(matriz, vector));
+        } else {
+            return this.normatizar(vector);
+        }  
+    }
+    rotation3DZ(vector, angle){
+        if(angle!=0){
+            if(angle>0){
+                var transfLinear = [[Math.cos(angle*(Math.PI/180)), -(Math.sin(angle*(Math.PI/180)))],
+                                [Math.sin(angle*(Math.PI/180)), Math.cos(angle*(Math.PI/180))]];
+            } else {
+                angle = Math.abs(angle);
+                var transfLinear = [[Math.cos(angle*(Math.PI/180)), (Math.sin(angle*(Math.PI/180)))],
+                                    [-(Math.sin(angle*(Math.PI/180))), Math.cos(angle*(Math.PI/180))]];
+            }  
+
+            var matriz =    [
+                                [transfLinear[0][0], transfLinear[0][1], 0], 
+                                [transfLinear[1][0], transfLinear[1][1], 0],
+                                [0, 0, 1]
+                            ];
+            console.log(matriz);
+
+            return this.normatizar(this.times(matriz, vector));
         } else {
             return this.normatizar(vector);
         }  
@@ -181,6 +221,39 @@ class Transformations {
         var transfLinear = [[1, 0, 0], 
                             [0, -1, 0],
                             [0, 0, 1]];
+        return this.normatizar(this.times(transfLinear, vector));
+    }
+    projection2DX(vector) {
+        var transfLinear = [[1, 0], 
+                            [0, 0]];
+        return this.normatizar(this.times(transfLinear, vector));
+    }
+    projection2DY(vector) {
+        var transfLinear = [[0, 0], 
+                            [0, 1]];
+        return this.normatizar(this.times(transfLinear, vector));
+    }
+    projection3DX(vector) {
+        var transfLinear = [[0, 0, 0], 
+                            [0, 1, 0],
+                            [0, 0, 1]];
+        return this.normatizar(this.times(transfLinear, vector));
+    }
+    projection3DY(vector) {
+        var transfLinear = [[1, 0, 0], 
+                            [0, 0, 0],
+                            [0, 0, 1]];
+        return this.normatizar(this.times(transfLinear, vector));
+    }
+    projection3DZ(vector) {
+        var transfLinear = [[1, 0, 0], 
+                            [0, 1, 0],
+                            [0, 0, 0]];
+        return this.normatizar(this.times(transfLinear, vector));
+    }
+    shearing(vector, kx, ky){
+        var transfLinear = [[1, kx],
+                            [ky, 1]];
         return this.normatizar(this.times(transfLinear, vector));
     }
 }
