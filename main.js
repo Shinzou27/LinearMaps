@@ -5,9 +5,6 @@
     Alunos:     Felipe Cassiano Barbosa
                 Gabriela Araujo de Abreu
                 Victor Nunes Saboia
-
-    Ainda resta:
-        ● Tudo feito! :D
 */
 
 class Transformations {
@@ -283,10 +280,28 @@ function declareVector() {
     console.log("Vetor original = (" + vetor + ")")
     return vetor;
 }
+function declareAllMethods2D(vector, angle2D, dx, dy, kx, ky) {
+    calculo.rotation2D(vector, angle2D);
+    calculo.translate2D(vector, dx, dy);
+    calculo.projection2DX(vector);
+    calculo.projection2DY(vector);
+    calculo.reflection2DX(vector);
+    calculo.reflection2DY(vector);
+    calculo.shearing(vector, kx, ky);
+}
+function declareAllMethods3D(vector, angle3DX, angle3DY, angle3DZ, dx, dy, dz) {
+    calculo.translate3D(vector, dx, dy, dz);
+    calculo.rotation3DX(vector, angle3DX);
+    calculo.rotation3DY(vector, angle3DY);
+    calculo.rotation3DZ(vector, angle3DZ);
+    calculo.projection3DX(vector);
+    calculo.projection3DY(vector);
+    calculo.projection3DZ(vector);
+    calculo.reflection3DX(vector);
+    calculo.reflection3DY(vector);
+    calculo.reflection3DZ(vector);
+}
+//Para testar os cálculos, é só descomentar as variáveis vetor e calculo e chamar os métodos (ou a função declareAllMethods e digitar os parâmetros pedidos)!
 
-//Para testar os cálculos, é só descomentar as variáveis vetor e calculo e chamar os métodos!
-
-/*
-var vetor = declareVector();
-var calculo = new Transformations();
-*/
+//var vetor = declareVector();
+//var calculo = new Transformations();
